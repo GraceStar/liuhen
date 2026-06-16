@@ -1,0 +1,29 @@
+# ─── Node / Vue ───
+node_modules/
+dist/
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+venv/
+env/
+.venv/
+
+# ─── 环境配置 / 数据库 ───
+.env
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# ─── 系统临时文件 ───
+Thumbs.db
+desktop.ini

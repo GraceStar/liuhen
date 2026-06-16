@@ -1,0 +1,17 @@
+[Unit]
+Description=留痕 (Liuhen) - Backend FastAPI
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/liuhen/backend
+Environment="PATH=/opt/liuhen/backend/venv/bin"
+ExecStart=/opt/liuhen/backend/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 --workers 2
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/liuhen/backend.log
+StandardError=append:/var/log/liuhen/backend-error.log
+
+[Install]
+WantedBy=multi-user.target
