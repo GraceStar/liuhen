@@ -26,7 +26,7 @@ fi
 # ── 3. 克隆/更新项目代码 ──
 echo "[3/6] 同步项目代码..."
 if [ ! -d "/opt/liuhen" ]; then
-    git clone git@github.com:Grace/liuhen.git /opt/liuhen
+    git clone https://github.com/GraceStar/liuhen.git /opt/liuhen
 else
     cd /opt/liuhen && git pull
 fi

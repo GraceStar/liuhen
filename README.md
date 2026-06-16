@@ -101,7 +101,7 @@ cd frontend && npm run dev
 
 1. 购买阿里云轻量应用服务器（2核2G, Ubuntu 22.04）
 2. SSH 登录服务器
-3. 克隆本仓库：`git clone git@github.com:Grace/liuhen.git`
+3. 克隆本仓库：`git clone https://github.com/GraceStar/liuhen.git`
 4. 运行部署脚本：`bash deploy/setup.sh`
 5. 配置 Nginx 和 systemd
 

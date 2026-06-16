@@ -36,7 +36,7 @@ ssh root@你的服务器IP
 服务器上执行：
 
 ```bash
-git clone git@github.com:Grace/liuhen.git /opt/liuhen
+git clone https://github.com/GraceStar/liuhen.git /opt/liuhen
 cd /opt/liuhen
 bash deploy/setup.sh
 ```
