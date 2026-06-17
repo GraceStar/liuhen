@@ -1,4 +1,10 @@
-/** 核心类型定义 */
+/**
+ * 核心类型定义 — 整个前端共享的数据结构
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * TypeScript 的 interface 类似 Kotlin 的 data class，
+ * 用于定义对象的"形状"（有哪些字段、什么类型）。
+ * 好处是编译时就能发现拼写错误和类型不匹配。
+ */
 
 export type CategoryType = 'work' | 'study' | 'observe'
 
@@ -23,6 +29,7 @@ export interface Topic {
   updatedAt: string
 }
 
+/** 任务的三态 — 看板的核心流转 */
 export type TaskStatus = 'todo' | 'doing' | 'done'
 
 export interface Task {
@@ -30,13 +37,14 @@ export interface Task {
   title: string
   description: string
   status: TaskStatus
-  importance: number // 1-5
+  importance: number  // 1 ~ 5 星
   topicId: number
   completedAt: string | null
   createdAt: string
   updatedAt: string
 }
 
+/** 成果统计数据（对应后端 /tasks/achievements 接口） */
 export interface AchievementSummary {
   totalDone: number
   avgImportance: number
@@ -45,6 +53,7 @@ export interface AchievementSummary {
   recentDone: Task[]
 }
 
+/** AI 复盘分析结果 */
 export interface AIAnalysisResult {
   topicName: string
   analysis: string
@@ -52,13 +61,31 @@ export interface AIAnalysisResult {
   generatedAt: string
 }
 
+/** 年终工作总结（PPT 友好格式） */
 export interface AnnualSummary {
   title: string
-  outline: string
-  keyNumbers: string
-  chartSuggestions: string
-  pptContent: string
+  outline: string        // Markdown 大纲
+  keyNumbers: string      // 关键数据
+  chartSuggestions: string // 图表建议
+  pptContent: string      // PPT 可用图文
 }
 
-/** 主题色 */
+/** 主题色模式 */
 export type ThemeMode = 'light' | 'dark' | 'system'
+
+// ──────────────────────────────────────────────
+// 认证相关类型（新增）
+// ──────────────────────────────────────────────
+
+/** 登录用户信息（从后端 /auth/me 接口返回） */
+export interface User {
+  id: number
+  username: string
+  createdAt: string | null
+}
+
+/** 登录/注册返回结果 */
+export interface AuthResult {
+  token: string    // JWT 令牌，后续所有 API 调用都要带上
+  user: User       // 用户基本信息
+}

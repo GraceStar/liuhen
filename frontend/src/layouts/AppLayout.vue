@@ -1,10 +1,15 @@
 <script setup lang="ts">
-/** 应用布局：侧栏 + 主内容 + 主题切换 */
+/**
+ * 应用布局 — 侧栏导航 + 主内容区 + 主题切换 + 用户信息
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 类比 Android：这是带 DrawerLayout + BottomNavigation 的主 Activity 布局。
+ */
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { useDataStore } from '@/stores/data'
-import { Sun, Moon, Monitor, Pencil, Trash2, LayoutDashboard, BarChart3, Menu, X } from '@lucide/vue'
+import { useAuthStore } from '@/stores/auth'
+import { Sun, Moon, Monitor, Pencil, Trash2, LayoutDashboard, BarChart3, Menu, X, LogOut, User } from '@lucide/vue'
 import type { ThemeMode, Topic } from '@/types'
 import EditTopicDialog from '@/components/EditTopicDialog.vue'
 
@@ -12,6 +17,7 @@ const router = useRouter()
 const route = useRoute()
 const theme = useThemeStore()
 const data = useDataStore()
+const auth = useAuthStore()
 
 const mobileMenuOpen = ref(false)
 const editingTopic = ref<Topic | null>(null)
@@ -54,6 +60,11 @@ function goAchievement(topicId: number) {
 
 function openEdit(topic: Topic) {
   editingTopic.value = topic
+}
+
+async function handleLogout() {
+  auth.logout()
+  router.push('/login')
 }
 </script>
 
@@ -146,8 +157,22 @@ function openEdit(topic: Topic) {
         </div>
       </nav>
 
-      <!-- 底部：主题切换 -->
-      <div class="border-t border-[var(--border-color)] p-3 space-y-2">
+      <!-- 底部：用户信息 + 主题切换 -->
+      <div class="border-t border-[var(--border-color)] p-3 space-y-3">
+        <!-- 用户信息 -->
+        <div v-if="auth.user" class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center">
+              <User :size="14" class="text-primary-600 dark:text-primary-300" />
+            </div>
+            <span class="text-xs font-medium text-[var(--text-primary)] truncate max-w-[120px]">{{ auth.user.username }}</span>
+          </div>
+          <button @click="handleLogout" class="p-1 rounded hover:bg-[var(--bg-surface-hover)] text-[var(--text-tertiary)] hover:text-red-500" title="退出登录">
+            <LogOut :size="14" />
+          </button>
+        </div>
+
+        <!-- 主题切换 -->
         <div class="flex bg-[var(--bg-surface-alt)] rounded-lg p-0.5">
           <button
             v-for="opt in themeOptions"

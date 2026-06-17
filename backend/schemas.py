@@ -1,7 +1,36 @@
-"""Pydantic 数据校验 - 类似 Kotlin 的 data class + 类型安全请求体"""
+"""Pydantic 数据校验 - 类似 Kotlin 的 data class + 类型安全请求体
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Pydantic 做三件事：
+  1. 定义请求/响应的数据结构（类型提示）
+  2. 自动校验输入（长度、格式、类型）
+  3. 自动生成 API 文档（FastAPI 内置 /docs）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
+
+
+# ──────────────────────────────────────────────
+# 认证相关
+# ──────────────────────────────────────────────
+class RegisterRequest(BaseModel):
+    """注册/登录请求 — 共享同一个 Schema"""
+    username: str = Field(..., min_length=1, max_length=50, description="用户名")
+    password: str = Field(..., min_length=1, max_length=100, description="密码（无复杂度要求）")
+
+
+class UserOut(BaseModel):
+    """用户信息（不含密码） — API 响应中返回"""
+    id: int
+    username: str
+    createdAt: Optional[str] = None
+
+
+class LoginResponse(BaseModel):
+    """登录/注册成功后的返回内容"""
+    token: str            # JWT 令牌，后续请求放在 Authorization 头
+    user: UserOut         # 用户基本信息
 
 
 # ──────────────────────────────────────────────
